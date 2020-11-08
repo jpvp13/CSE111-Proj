@@ -10,6 +10,7 @@ CREATE TABLE Ramen (
     Stars INT NOT NULL
 );
 
+--Test
 
 --Importing all tupples
 
