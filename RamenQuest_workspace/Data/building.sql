@@ -9,8 +9,3 @@ CREATE TABLE Ramen (
     Country VARCHAR NOT NULL,
     Stars INT NOT NULL
 );
-
---Test
-
---Importing all tupples
-
