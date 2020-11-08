@@ -2603,14 +2603,14 @@ ID,URL,Brand,Variety,Style,Country,Stars
 2602,https://www.theramenrater.com/2017/11/02/2602-koka-signature-pepper-crab/,KOKA,Signature Pepper Crab Flavor Instant Noodles,Pack,Singapore,3.25
 2603,https://www.theramenrater.com/2017/11/03/2603-paldo-pororo-jjajang-noodle/,Paldo,Pororo Jjajang Noodle,Cup,South Korea,2.5
 2604,https://www.theramenrater.com/2017/11/03/2604-tseng-scallion-sichuan-pepper/,Tseng Noodle,Scallion With Sichuan Pepper Flavor (Wester Version),Pack,Taiwan,5
-2605,https://www.theramenrater.com/2017/11/04/nona-lim-pad-see-ew-pho-broth/,Nona Lim,Pad See Ew Rice Noodles + Vietnamese Pho Broth,Pack,United States,4.25/5
-2606,https://www.theramenrater.com/2017/11/05/nona-lim-pad-see-ew-spicy-szechuan-2/,Nona Lim,Pad See Ew Rice Noodleds + Spicy Szechuan Broth,Pack,United States,4.25/5
-2607,https://www.theramenrater.com/2017/08/17/nona-lim-hakata-ramen-miso/,Nona Lim,Hakata Ramen + Miso Ramen Broth,Pack,United States,4-May
-2608,https://www.theramenrater.com/2017/11/07/nona-lim-hakata-ramen-thai-curry-lime/,Nona Lim,Hakata Ramen + Thai Curry & Lime Broth,Pack,United States,5/2.5
-2609,https://www.theramenrater.com/2017/11/08/nona-lim-pad-thai-pho-broth/,Nona Lim,Pad Thai Rice Noodles + Vietnamese Pho Broth,Pack,United States,4.5/5
-2610,https://www.theramenrater.com/2017/11/09/nona-lim-wheat-ramen-spicy-szechuan/,Nona Lim,Whole Wheat Ramen + Spicy Szechuan Broth,Pack,United States,5-May
-2611,https://www.theramenrater.com/2017/08/17/nona-lim-tokyo-ramen-miso/,Nona Lim,Tokyo Ramen + Miso Ramen Broth,Pack,United States,4-Apr
-2612,https://www.theramenrater.com/2017/11/11/nona-lim-laksa-rice-thai-curry-lime/,Nona Lim,Laksa Rice Noodles + Thai Curry & Lime Broth,Pack,United States,3.5/2.5
+2605,https://www.theramenrater.com/2017/11/04/nona-lim-pad-see-ew-pho-broth/,Nona Lim,Pad See Ew Rice Noodles + Vietnamese Pho Broth,Pack,United States,4.25
+2606,https://www.theramenrater.com/2017/11/05/nona-lim-pad-see-ew-spicy-szechuan-2/,Nona Lim,Pad See Ew Rice Noodleds + Spicy Szechuan Broth,Pack,United States,4.25
+2607,https://www.theramenrater.com/2017/08/17/nona-lim-hakata-ramen-miso/,Nona Lim,Hakata Ramen + Miso Ramen Broth,Pack,United States,4.5
+2608,https://www.theramenrater.com/2017/11/07/nona-lim-hakata-ramen-thai-curry-lime/,Nona Lim,Hakata Ramen + Thai Curry & Lime Broth,Pack,United States,5
+2609,https://www.theramenrater.com/2017/11/08/nona-lim-pad-thai-pho-broth/,Nona Lim,Pad Thai Rice Noodles + Vietnamese Pho Broth,Pack,United States,4.5
+2610,https://www.theramenrater.com/2017/11/09/nona-lim-wheat-ramen-spicy-szechuan/,Nona Lim,Whole Wheat Ramen + Spicy Szechuan Broth,Pack,United States,5
+2611,https://www.theramenrater.com/2017/08/17/nona-lim-tokyo-ramen-miso/,Nona Lim,Tokyo Ramen + Miso Ramen Broth,Pack,United States,4
+2612,https://www.theramenrater.com/2017/11/11/nona-lim-laksa-rice-thai-curry-lime/,Nona Lim,Laksa Rice Noodles + Thai Curry & Lime Broth,Pack,United States,3.5
 2613,https://www.theramenrater.com/2017/11/12/2613-nissin-raoh-backfat-rich-shoyu/,Nissin,Raoh Backfat Rich Shoyu Ramen,Bowl,Japan,5
 2614,https://www.theramenrater.com/2017/11/13/2614-samyang-foods-chacharoni/,Samyang Foods,Chacharoni,Bowl,South Korea,3.75
 2615,https://www.theramenrater.com/2017/11/14/2615-nissin-straight-spicy-tonkotsu/,Nissin,Demae Ramen Straight Noodle Spicy Tonkotsu Flavour Instant Noodle,Pack,Hong Kong,5
@@ -3146,8 +3146,8 @@ ID,URL,Brand,Variety,Style,Country,Stars
 3146,https://www.theramenrater.com/2019/04/12/3146-nissin-yakisoba-instant-pancit-spicy-chicken-flavor-philippines/,Nissin,Yakisoba Instant Pancit Spicy Chicken Flavor,Cup,Philippines,4.25
 3147,https://www.theramenrater.com/2019/04/13/3147-samyang-foods-buldak-mini/,Samyang Foods,Buldak Mini,Pack,South Korea,4
 3148,https://www.theramenrater.com/2019/04/15/3148-hakubaku-tonkotsu/,Hakubaku,Tonkotsu Pork Flavor Ramen,Pack,United States,5
-3149,https://www.theramenrater.com/2019/04/16/3149-hakubaku-baby-udon-japan/,Hakubaku,Baby Udon,Pack,Japan,NR
-3150,https://www.theramenrater.com/2019/04/18/3150-hakubaku-baby-somen-japan/,Hakubaku,Baby Somen,Pack,Japan,NR
+3149,https://www.theramenrater.com/2019/04/16/3149-hakubaku-baby-udon-japan/,Hakubaku,Baby Udon,Pack,Japan,0
+3150,https://www.theramenrater.com/2019/04/18/3150-hakubaku-baby-somen-japan/,Hakubaku,Baby Somen,Pack,Japan,0
 3151,https://www.theramenrater.com/2019/04/19/3151-hakubaku-shoyu-soy-sauce/,Hakubaku,Shoyu Soy Sauce Flavor Ramen,Pack,United States,5
 3152,https://www.theramenrater.com/2019/04/24/3152-maruchan-qtta-curry-ramen-japan/,Maruchan,QTTA Curry Ramen,Cup,Japan,5
 3153,https://www.theramenrater.com/2019/04/25/3153-maison-de-coree-bbq-coreen/,Maison de Coree,Ramen Gout BBQ Coree,Cup,France,5
