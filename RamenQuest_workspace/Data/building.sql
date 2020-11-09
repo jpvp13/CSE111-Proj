@@ -53,3 +53,33 @@ CREATE TABLE Style_Brand (
 --############################
 --Importing all tupples
 
+-- b_brand
+select DISTINCT Brand
+FROM CompleteData
+ORDER BY Brand
+
+-- c_country
+SELECT DISTINCT Country
+FROM CompleteData
+ORDER BY Country
+
+-- Country-Brand
+SELECT Country, Brand
+FROM CompleteData
+GROUP BY Country, Brand
+
+-- s_style
+SELECT DISTINCT Style
+FROM CompleteData
+ORDER BY Style
+
+-- Style_Brand
+SELECT Brand, Style
+FROM CompleteData
+GROUP BY Brand, Style
+
+-- v_variety
+SELECT ID, Variety
+FROM CompleteData
+
+-- Users
