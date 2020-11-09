@@ -19,7 +19,8 @@ CREATE TABLE Style (
 
 CREATE TABLE Users (
     u_users TEXT PRIMARY KEY NOT NULL,
-    u_userrating INT NULL
+    u_userrating INT NULL,
+    u_id INT NULL
 );
 
 CREATE TABLE Variety (
@@ -33,8 +34,7 @@ CREATE TABLE Ramen (
     r_url TEXT NOT NULL,
     r_brand TEXT NOT NULL,
     r_style TEXT NOT NULL,
-    r_country TEXT NOT NULL,
-    r_users TEXT NOT NULL
+    r_country TEXT NOT NULL
 );
 
 CREATE TABLE Style_Brand (
@@ -81,5 +81,10 @@ GROUP BY Brand, Style
 -- v_variety
 SELECT ID, Variety
 FROM CompleteData
+
+-- Ramen
+SELECT ID, Stars, URL, Brand, Style, Country
+FROM CompleteData
+ORDER BY ID
 
 -- Users
