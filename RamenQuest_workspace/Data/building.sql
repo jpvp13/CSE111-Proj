@@ -19,7 +19,7 @@ CREATE TABLE Country_Brand (
 
 --############################
 --Delete data from tables
-DELETE FROM Country WHERE c_country = 'Country' AND c_country = ''
+DELETE FROM Country WHERE c_country = ''
 
 --############################
 --Importing all tupples
