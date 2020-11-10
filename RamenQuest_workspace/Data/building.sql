@@ -117,33 +117,58 @@ ORDER BY ID
 --Will write once we have our UI 
 
 -- ####################################
--- Display all types of styles that ramen come from (ONLY STYLES)
+-- 1 - Display all types of styles that ramen come from (ONLY STYLES)
 SELECT s_style      
 FROM Style
 ORDER BY s_style
 
 
--- Display the different type of varieties (Meaning ingredients)
+-- 2 - Display the different type of varieties (Meaning ingredients)
 SELECT v_variety
 FROM Variety
 ORDER BY v_variety
 
--- Display Brands that exist within the database
+-- 3 - Display Brands that exist within the database
 SELECT b_brand
 FROM Brand
 ORDER BY b_brand
 
 
--- Display the countries that ramen come from whole dataset
+-- 4 - Display the countries that ramen come from whole dataset
 SELECT c_country
 FROM Country
 ORDER BY c_country
 
--- Display wha
+-- 5 - Display the ratings 
 SELECT DISTINCT r_rating
 FROM Ramen
 ORDER BY r_rating
 
+-- 6 - selecting ramen based on style
+SELECT * 
+FROM Ramen
+WHERE r_style = '?'
+ORDER BY r_rating DESC
+
+-- 7 - selecting ramen based on the brand
+SELECT * 
+FROM Ramen
+WHERE r_brand = '?'
+ORDER BY r_rating DESC
+
+-- 8 - selecting ramen based on the country
+SELECT * 
+FROM Ramen
+WHERE r_country = '?'
+ORDER BY r_rating DESC
+
+-- 9 - selecting ramen based on the rating
+SELECT * 
+FROM Ramen
+WHERE r_rating = '?'
+ORDER BY r_rating DESC
+
+-- 10
 
 
 
