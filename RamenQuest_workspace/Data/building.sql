@@ -58,7 +58,15 @@ CREATE TABLE myList (       --list where user can store a list of their favorite
 
 --############################
 --Delete data from tables
--- DELETE FROM xxx
+-- DELETE FROM 
+
+
+-- #########################
+-- Update info from any table
+
+-- UPDATE xxxx
+-- SET xxxx
+-- WHERE xxx
 
 --############################
 --Importing all tupples
@@ -107,6 +115,35 @@ ORDER BY ID
 
 -- Users
 --Will write once we have our UI 
+
+-- ####################################
+-- Display all types of styles that ramen come from (ONLY STYLES)
+SELECT s_style      
+FROM Style
+ORDER BY s_style
+
+
+-- Display the different type of varieties (Meaning ingredients)
+SELECT v_variety
+FROM Variety
+ORDER BY v_variety
+
+-- Display Brands that exist within the database
+SELECT b_brand
+FROM Brand
+ORDER BY b_brand
+
+
+-- Display the countries that ramen come from whole dataset
+SELECT c_country
+FROM Country
+ORDER BY c_country
+
+-- Display wha
+SELECT DISTINCT r_rating
+FROM Ramen
+ORDER BY r_rating
+
 
 
 
