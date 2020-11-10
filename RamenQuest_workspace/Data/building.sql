@@ -9,7 +9,7 @@ CREATE TABLE Brand (
 );
 
 CREATE TABLE Country_Brand (
-    cb_country TEXT PRIMARY KEY NOT NULL,
+    cb_country TEXT NOT NULL,
     cb_brand TEXT NOT NULL
 );
 
@@ -38,9 +38,10 @@ CREATE TABLE Ramen (
 );
 
 CREATE TABLE Style_Brand (
-    sb_brand TEXT PRIMARY KEY NOT NULL,
+    sb_brand TEXT NOT NULL,
     sb_style TEXT NOT NULL
 );
+
 
 --############################
 --Drop a specified Table
@@ -54,37 +55,45 @@ CREATE TABLE Style_Brand (
 --Importing all tupples
 
 -- b_brand
+INSERT INTO Brand
 select DISTINCT Brand
 FROM CompleteData
 ORDER BY Brand
 
 -- c_country
+INSERT INTO Country
 SELECT DISTINCT Country
 FROM CompleteData
 ORDER BY Country
 
 -- Country-Brand
+INSERT INTO Country_Brand
 SELECT Country, Brand
 FROM CompleteData
-GROUP BY Country, Brand
+GROUP BY Country, Brand;
 
 -- s_style
-SELECT DISTINCT Style
-FROM CompleteData
+INSERT INTO Style 
+SELECT DISTINCT Style 
+FROM CompleteData 
 ORDER BY Style
 
 -- Style_Brand
+INSERT INTO Style_Brand
 SELECT Brand, Style
 FROM CompleteData
 GROUP BY Brand, Style
 
 -- v_variety
+INSERT INTO Variety
 SELECT ID, Variety
 FROM CompleteData
 
 -- Ramen
+INSERT INTO Ramen
 SELECT ID, Stars, URL, Brand, Style, Country
 FROM CompleteData
 ORDER BY ID
 
 -- Users
+
