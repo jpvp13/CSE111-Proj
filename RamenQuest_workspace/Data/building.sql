@@ -145,33 +145,112 @@ FROM Ramen
 ORDER BY r_rating
 
 -- 6 - selecting ramen based on style
-SELECT * 
-FROM Ramen
-WHERE r_style = '?'
+
+
+SELECT r_id, r_rating, s_style, cb_brand, cb_country, r_url
+FROM Ramen, Style, Country_Brand
+WHERE r_style = s_style
+    AND r_brand = cb_brand
+    AND cb_country = r_country
+    AND s_style LIKE '?'
 ORDER BY r_rating DESC
 
 -- 7 - selecting ramen based on the brand
-SELECT * 
-FROM Ramen
-WHERE r_brand = '?'
+
+
+SELECT r_id, r_rating, s_style, cb_brand, cb_country, r_url
+FROM Ramen, Style, Country_Brand
+WHERE cb_brand = r_brand
+    AND cb_brand LIKE '?'
+    AND cb_country = r_country
+    AND s_style = r_style
 ORDER BY r_rating DESC
 
+
 -- 8 - selecting ramen based on the country
-SELECT * 
-FROM Ramen
-WHERE r_country = '?'
+
+SELECT r_id, r_rating, s_style, cb_brand, cb_country, r_url
+FROM Ramen, Style, Country_Brand
+WHERE cb_country LIKE '?'
+    AND cb_brand = r_brand
+    AND cb_country = r_country
+    AND s_style = r_style
 ORDER BY r_rating DESC
 
 -- 9 - selecting ramen based on the rating
-SELECT * 
-FROM Ramen
-WHERE r_rating = '?'
+SELECT r_id, r_rating, s_style, cb_brand, cb_country, r_url
+FROM Ramen, Style, Country_Brand
+WHERE r_rating LIKE 2
+    AND cb_brand = r_brand
+    AND cb_country = r_country
+    AND s_style = r_style
 ORDER BY r_rating DESC
+
 
 -- 10 - when user inputs their info and leaves a rating on a ramen
 INSERT INTO Users (u_users, u_userrating, u_id) VALUES ('?', '?', '?');
 
--- 11 - 
+-- 11 - Will allow the user to update main database and retrieve the avg rating (their rating+ provided rating)
 UPDATE Ramen
-SET r_rating = '?' --
+SET r_rating = '?'
 WHERE r_id = '?'
+
+
+-- 12 - Will give a recommendation when a item is   --!Work in progress
+SELECT *
+FROM Ramen, Country_Brand,Style
+WHERE r_id = '?'
+    AND r_rating = '?'
+    AND r_url= '?'
+    AND cb_brand = '?'
+    AND s_style = '?'
+    AND cb_country = '?'
+
+
+-- 13 - Will return the max rating based on a specific brand
+SELECT MAX(r_rating)
+FROM Ramen
+WHERE r_brand = '?'
+
+-- 14 - Will return the max rating based on a specific style
+SELECT MAX(r_rating)
+FROM Ramen
+WHERE r_style= '?'
+
+-- 15 - Will return the max rating based on a specific country
+SELECT MAX(r_rating)
+FROM Ramen
+WHERE r_country = '?'
+
+
+-- 16 - Will return the URL based on specific constraints from the User     --!Work in Progesss
+SELECT r_url
+FROM Ramen, Country_Brand, Style
+WHERE r_id = '?'
+    AND r_rating = '?'
+    AND r_url= '?'
+    AND cb_brand = '?'
+    AND s_style = '?'
+    AND cb_country = '?'
+
+-- 17 - Returns the avg rating of a certain brand
+SELECT AVG(r_rating)
+FROM Ramen
+WHERE r_brand = '?'
+
+-- 18 - Return the avg rating of a certain style
+SELECT AVG(r_rating)
+FROM Ramen
+WHERE r_style = '?'
+
+-- 19 - Return the avg rating of a certain country
+SELECT AVG(r_rating)
+FROM Ramen
+WHERE r_country = '?'
+
+--20 - Return the brand(s) with a specificed rating from the user
+SELECT cb_brand 
+FROM Ramen, Country_Brand
+WHERE r_brand = cb_brand
+    AND r_rating LIKE '2.9'
+GROUP BY cb_brand
