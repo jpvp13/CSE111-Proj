@@ -63,25 +63,26 @@ CREATE TABLE myList (       --list where user can store a list of their favorite
 --############################
 --Importing all tupples
 
--- b_brand
+-- Populating each table
+-- Brand
 INSERT INTO Brand
 select DISTINCT Brand
 FROM CompleteData
 ORDER BY Brand
 
--- c_country
+-- Country
 INSERT INTO Country
 SELECT DISTINCT Country
 FROM CompleteData
 ORDER BY Country
 
--- Country-Brand
+-- Country_Brand
 INSERT INTO Country_Brand
 SELECT Country, Brand
 FROM CompleteData
 GROUP BY Country, Brand;
 
--- s_style
+-- Style
 INSERT INTO Style 
 SELECT DISTINCT Style 
 FROM CompleteData 
@@ -93,7 +94,7 @@ SELECT Brand, Style
 FROM CompleteData
 GROUP BY Brand, Style
 
--- v_variety
+-- Variety
 INSERT INTO Variety
 SELECT ID, Variety
 FROM CompleteData
@@ -105,7 +106,6 @@ FROM CompleteData
 ORDER BY ID
 
 -- Users
-
 --Will write once we have our UI 
 
 
