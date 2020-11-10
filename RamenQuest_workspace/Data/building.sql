@@ -42,6 +42,15 @@ CREATE TABLE Style_Brand (
     sb_style TEXT NOT NULL
 );
 
+CREATE TABLE myList (       --list where user can store a list of their favorite ramens
+    my_ramenID INT PRIMARY KEY NOT NULL,
+    my_rating INT NOT NULL,
+    my_url TEXT NOT NULL,
+    my_brand TEXT NOT NULL,
+    my_style TEXT NOT NULL,
+    my_country TEXT NOT NULL
+);
+
 
 --############################
 --Drop a specified Table
@@ -96,4 +105,8 @@ FROM CompleteData
 ORDER BY ID
 
 -- Users
+
+--Will write once we have our UI 
+
+
 
