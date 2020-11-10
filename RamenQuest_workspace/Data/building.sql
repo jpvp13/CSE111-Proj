@@ -168,7 +168,10 @@ FROM Ramen
 WHERE r_rating = '?'
 ORDER BY r_rating DESC
 
--- 10
+-- 10 - when user inputs their info and leaves a rating on a ramen
+INSERT INTO Users (u_users, u_userrating, u_id) VALUES ('?', '?', '?');
 
-
-
+-- 11 - 
+UPDATE Ramen
+SET r_rating = '?' --
+WHERE r_id = '?'
