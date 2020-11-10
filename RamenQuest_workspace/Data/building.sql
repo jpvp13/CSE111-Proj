@@ -122,7 +122,6 @@ SELECT s_style
 FROM Style
 ORDER BY s_style
 
-
 -- 2 - Display the different type of varieties (Meaning ingredients)
 SELECT v_variety
 FROM Variety
@@ -132,7 +131,6 @@ ORDER BY v_variety
 SELECT b_brand
 FROM Brand
 ORDER BY b_brand
-
 
 -- 4 - Display the countries that ramen come from whole dataset
 SELECT c_country
@@ -145,8 +143,6 @@ FROM Ramen
 ORDER BY r_rating
 
 -- 6 - selecting ramen based on style
-
-
 SELECT r_id, r_rating, s_style, cb_brand, cb_country, r_url
 FROM Ramen, Style, Country_Brand
 WHERE r_style = s_style
@@ -156,8 +152,6 @@ WHERE r_style = s_style
 ORDER BY r_rating DESC
 
 -- 7 - selecting ramen based on the brand
-
-
 SELECT r_id, r_rating, s_style, cb_brand, cb_country, r_url
 FROM Ramen, Style, Country_Brand
 WHERE cb_brand = r_brand
@@ -166,9 +160,7 @@ WHERE cb_brand = r_brand
     AND s_style = r_style
 ORDER BY r_rating DESC
 
-
 -- 8 - selecting ramen based on the country
-
 SELECT r_id, r_rating, s_style, cb_brand, cb_country, r_url
 FROM Ramen, Style, Country_Brand
 WHERE cb_country LIKE '?'
@@ -186,7 +178,6 @@ WHERE r_rating LIKE 2
     AND s_style = r_style
 ORDER BY r_rating DESC
 
-
 -- 10 - when user inputs their info and leaves a rating on a ramen
 INSERT INTO Users (u_users, u_userrating, u_id) VALUES ('?', '?', '?');
 
@@ -194,7 +185,6 @@ INSERT INTO Users (u_users, u_userrating, u_id) VALUES ('?', '?', '?');
 UPDATE Ramen
 SET r_rating = '?'
 WHERE r_id = '?'
-
 
 -- 12 - Will give a recommendation when a item is   --!Work in progress
 SELECT *
@@ -205,7 +195,6 @@ WHERE r_id = '?'
     AND cb_brand = '?'
     AND s_style = '?'
     AND cb_country = '?'
-
 
 -- 13 - Will return the max rating based on a specific brand
 SELECT MAX(r_rating)
@@ -221,7 +210,6 @@ WHERE r_style= '?'
 SELECT MAX(r_rating)
 FROM Ramen
 WHERE r_country = '?'
-
 
 -- 16 - Will return the URL based on specific constraints from the User     --!Work in Progesss
 SELECT r_url
@@ -252,5 +240,17 @@ WHERE r_country = '?'
 SELECT cb_brand 
 FROM Ramen, Country_Brand
 WHERE r_brand = cb_brand
-    AND r_rating LIKE '2.9'
+    AND r_rating LIKE 5
 GROUP BY cb_brand
+
+-- 21 - insert a Ramen into myList based on the ramen id
+INSERT INTO myList
+SELECT r_id, r_rating, r_url, cb_brand, cb_country, s_style
+FROM Ramen, Country_Brand, Style
+WHERE r_id = '?'
+    AND r_brand = cb_brand
+    AND r_style = s_style
+
+-- 22 - delete a ramen from myList based on the my_ramenID
+DELETE FROM myList
+WHERE my_ramenID = '?'
