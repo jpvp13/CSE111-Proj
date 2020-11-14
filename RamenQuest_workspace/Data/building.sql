@@ -31,10 +31,8 @@ CREATE TABLE Variety (
 CREATE TABLE Ramen (
     r_id INT PRIMARY KEY NOT NULL,
     r_rating INT NOT NULL,
-    r_url TEXT NOT NULL,
     r_brand TEXT NOT NULL,
-    r_style TEXT NOT NULL,
-    r_country TEXT NOT NULL
+    r_url TEXT NOT NULL
 );
 
 CREATE TABLE Style_Brand (
@@ -45,10 +43,8 @@ CREATE TABLE Style_Brand (
 CREATE TABLE myList (       --list where user can store a list of their favorite ramens
     my_ramenID INT PRIMARY KEY NOT NULL,
     my_rating INT NOT NULL,
-    my_url TEXT NOT NULL,
     my_brand TEXT NOT NULL,
-    my_style TEXT NOT NULL,
-    my_country TEXT NOT NULL
+    my_url TEXT NOT NULL
 );
 
 
@@ -109,7 +105,7 @@ FROM CompleteData
 
 -- Ramen
 INSERT INTO Ramen
-SELECT ID, Stars, URL, Brand, Style, Country
+SELECT ID, Stars, Brand, URL
 FROM CompleteData
 ORDER BY ID
 
@@ -143,83 +139,82 @@ FROM Ramen
 ORDER BY r_rating
 
 -- 6 - selecting ramen based on style
-SELECT r_id, r_rating, s_style, cb_brand, cb_country, r_url
-FROM Ramen, Style, Country_Brand
-WHERE r_style = s_style
-    AND r_brand = cb_brand
-    AND cb_country = r_country
-    AND s_style LIKE '?'
+SELECT r_id, r_rating, sb_style, cb_brand, cb_country, r_url
+FROM Ramen, Style_Brand, Country_Brand
+WHERE r_brand = sb_brand
+    AND cb_brand = sb_brand
+    AND sb_style LIKE '?'
 ORDER BY r_rating DESC
 
 -- 7 - selecting ramen based on the brand
-SELECT r_id, r_rating, s_style, cb_brand, cb_country, r_url
-FROM Ramen, Style, Country_Brand
-WHERE cb_brand = r_brand
+SELECT r_id, r_rating, sb_style, cb_brand, cb_country, r_url
+FROM Ramen, Style_Brand, Country_Brand
+WHERE r_brand = sb_brand
+    AND cb_brand = sb_brand
     AND cb_brand LIKE '?'
-    AND cb_country = r_country
-    AND s_style = r_style
 ORDER BY r_rating DESC
 
 -- 8 - selecting ramen based on the country
-SELECT r_id, r_rating, s_style, cb_brand, cb_country, r_url
-FROM Ramen, Style, Country_Brand
-WHERE cb_country LIKE '?'
-    AND cb_brand = r_brand
-    AND cb_country = r_country
-    AND s_style = r_style
+SELECT r_id, r_rating, sb_style, cb_brand, cb_country, r_url
+FROM Ramen, Style_Brand, Country_Brand
+WHERE r_brand = sb_brand
+    AND cb_brand = sb_brand
+    AND cb_country LIKE '?'
 ORDER BY r_rating DESC
 
 -- 9 - selecting ramen based on the rating
-SELECT r_id, r_rating, s_style, cb_brand, cb_country, r_url
-FROM Ramen, Style, Country_Brand
-WHERE r_rating LIKE 2
-    AND cb_brand = r_brand
-    AND cb_country = r_country
-    AND s_style = r_style
-ORDER BY r_rating DESC
+SELECT r_id, r_rating, sb_style, cb_brand, cb_country, r_url
+FROM Ramen, Style_Brand, Country_Brand
+WHERE r_brand = sb_brand
+    AND cb_brand = sb_brand
+    AND r_rating = '?'
+GROUP BY r_id
 
 -- 10 - when user inputs their info and leaves a rating on a ramen
 INSERT INTO Users (u_users, u_userrating, u_id) VALUES ('?', '?', '?');
 
--- 11 - Will allow the user to update main database and retrieve the avg rating (their rating+ provided rating)
+-- 11 - Will allow the user to update main database and retrieve the avg rating (their rating + provided rating)
 UPDATE Ramen
 SET r_rating = '?'
 WHERE r_id = '?'
 
--- 12 - Will give a recommendation when a item is   --!Work in progress
+-- 12 - Will give a recommendation when a item is selected  --!Work in progress
 SELECT *
-FROM Ramen, Country_Brand,Style
-WHERE r_id = '?'
+FROM Ramen, Country_Brand, Style_Brand
+WHERE r_brand = sb_brand
+    AND cb_brand = sb_brand
     AND r_rating = '?'
-    AND r_url= '?'
-    AND cb_brand = '?'
-    AND s_style = '?'
-    AND cb_country = '?'
+    AND cb_brand LIKE '?'
+    AND sb_style LIKE '?'
+    AND cb_country LIKE '?'
 
 -- 13 - Will return the max rating based on a specific brand
 SELECT MAX(r_rating)
-FROM Ramen
-WHERE r_brand = '?'
+FROM Ramen, Country_Brand
+WHERE r_brand = cb_brand
+    AND cb_brand LIKE 'A-one'
 
 -- 14 - Will return the max rating based on a specific style
 SELECT MAX(r_rating)
-FROM Ramen
-WHERE r_style= '?'
+FROM Ramen, Style_Brand
+WHERE r_brand = sb_brand
+    AND sb_style LIKE '?'
 
 -- 15 - Will return the max rating based on a specific country
 SELECT MAX(r_rating)
-FROM Ramen
-WHERE r_country = '?'
+FROM Ramen, Country_Brand
+WHERE r_brand = cb_brand
+    AND cb_country LIKE '?'
 
 -- 16 - Will return the URL based on specific constraints from the User     --!Work in Progesss
 SELECT r_url
-FROM Ramen, Country_Brand, Style
-WHERE r_id = '?'
+FROM Ramen, Country_Brand, Style_Brand
+WHERE r_brand = sb_brand
+    AND cb_brand = sb_brand
     AND r_rating = '?'
-    AND r_url= '?'
-    AND cb_brand = '?'
-    AND s_style = '?'
-    AND cb_country = '?'
+    AND cb_brand LIKE '?'
+    AND sb_style LIKE '?'
+    AND cb_country LIKE '?'
 
 -- 17 - Returns the avg rating of a certain brand
 SELECT AVG(r_rating)
@@ -228,28 +223,28 @@ WHERE r_brand = '?'
 
 -- 18 - Return the avg rating of a certain style
 SELECT AVG(r_rating)
-FROM Ramen
-WHERE r_style = '?'
+FROM Ramen, Style_Brand
+WHERE r_brand = sb_brand
+    AND sb_style LIKE '?'
 
 -- 19 - Return the avg rating of a certain country
 SELECT AVG(r_rating)
-FROM Ramen
-WHERE r_country = '?'
+FROM Ramen, Country_Brand
+WHERE r_brand = cb_brand
+    AND cb_country LIKE '?'
 
 --20 - Return the brand(s) with a specificed rating from the user
 SELECT cb_brand 
 FROM Ramen, Country_Brand
 WHERE r_brand = cb_brand
-    AND r_rating LIKE 5
+    AND r_rating = '?'
 GROUP BY cb_brand
 
 -- 21 - insert a Ramen into myList based on the ramen id
 INSERT INTO myList
-SELECT r_id, r_rating, r_url, cb_brand, cb_country, s_style
-FROM Ramen, Country_Brand, Style
+SELECT r_id, r_rating, r_brand, r_url 
+FROM Ramen
 WHERE r_id = '?'
-    AND r_brand = cb_brand
-    AND r_style = s_style
 
 -- 22 - delete a ramen from myList based on the my_ramenID
 DELETE FROM myList
