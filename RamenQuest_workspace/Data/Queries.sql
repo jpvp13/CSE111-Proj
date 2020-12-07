@@ -60,7 +60,7 @@ GROUP BY r_id
 -- 10 - when user inputs their info and leaves a rating on a ramen
 INSERT INTO Users (u_users, u_userrating, u_id) VALUES ('?', '?', '?');
 
--- 11 - Will allow the user to update main database and retrieve the avg rating (their rating + provided rating)
+-- 11 - Will allow the user to update main database and retrieve the avg rating (their rating + provided rating)    --!Q7
 UPDATE Ramen
 SET r_rating = '?'
 WHERE r_id = '?'
@@ -70,6 +70,7 @@ FROM Ramen
 WHERE r_id = '?';
 
 -- 12 - Will give a recommendation when a item is selected  --!Work in progress
+--!This is basically Q6 now
 SELECT *
 FROM Ramen, Country_Brand, Style_Brand
 WHERE r_brand = sb_brand
@@ -79,19 +80,19 @@ WHERE r_brand = sb_brand
     AND sb_style LIKE '?'
     AND cb_country LIKE '?'
 
--- 13 - Will return the max rating based on a specific brand
+-- 13 - Will return the max rating based on a specific brand    --!Q8
 SELECT MAX(r_rating)
 FROM Ramen, Country_Brand
 WHERE r_brand = cb_brand
     AND cb_brand LIKE 'A-one'
 
--- 14 - Will return the max rating based on a specific style
+-- 14 - Will return the max rating based on a specific style    --!Q9
 SELECT MAX(r_rating)
 FROM Ramen, Style_Brand
 WHERE r_brand = sb_brand
     AND sb_style LIKE '?'
 
--- 15 - Will return the max rating based on a specific country
+-- 15 - Will return the max rating based on a specific country  --!Q10
 SELECT MAX(r_rating)
 FROM Ramen, Country_Brand
 WHERE r_brand = cb_brand
@@ -110,7 +111,7 @@ WHERE r_brand = sb_brand
 -- 17 - Returns the avg rating of a certain brand
 SELECT AVG(r_rating)
 FROM Ramen
-WHERE r_brand = '?'
+WHERE r_brand LIKE '?'
 
 -- 18 - Return the avg rating of a certain style
 SELECT AVG(r_rating)
