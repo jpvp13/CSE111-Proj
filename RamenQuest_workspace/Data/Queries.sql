@@ -10,10 +10,10 @@ SELECT v_variety
 FROM Variety
 ORDER BY v_variety
 
--- 3 - Display Brands that exist within the database
-SELECT b_brand
-FROM Brand
-ORDER BY b_brand
+-- -- 3 - Display Brands that exist within the database
+-- SELECT b_brand
+-- FROM Brand
+-- ORDER BY b_brand
 
 -- 4 - Display the countries that ramen come from whole dataset
 SELECT c_country
@@ -25,7 +25,7 @@ SELECT DISTINCT r_rating
 FROM Ramen
 ORDER BY r_rating
 
--- 6 - selecting ramen based on style
+-- 6 - selecting ramen based on style   --!Q6
 SELECT r_id, r_rating, sb_style, cb_brand, cb_country, r_url
 FROM Ramen, Style_Brand, Country_Brand
 WHERE r_brand = sb_brand
@@ -33,15 +33,15 @@ WHERE r_brand = sb_brand
     AND sb_style LIKE '?'
 ORDER BY r_rating DESC
 
--- 7 - selecting ramen based on the brand
+-- 7 - selecting ramen based on the brand   --!Q6
 SELECT r_id, r_rating, sb_style, cb_brand, cb_country, r_url
 FROM Ramen, Style_Brand, Country_Brand
 WHERE r_brand = sb_brand
     AND cb_brand = sb_brand
-    AND cb_brand LIKE '?'
+    AND cb_brand LIKE 'Go'
 ORDER BY r_rating DESC
 
--- 8 - selecting ramen based on the country
+-- 8 - selecting ramen based on the country   --!Q6
 SELECT r_id, r_rating, sb_style, cb_brand, cb_country, r_url
 FROM Ramen, Style_Brand, Country_Brand
 WHERE r_brand = sb_brand
@@ -49,7 +49,7 @@ WHERE r_brand = sb_brand
     AND cb_country LIKE '?'
 ORDER BY r_rating DESC
 
--- 9 - selecting ramen based on the rating
+-- 9 - selecting ramen based on the rating   --!Q6
 SELECT r_id, r_rating, sb_style, cb_brand, cb_country, r_url
 FROM Ramen, Style_Brand, Country_Brand
 WHERE r_brand = sb_brand
@@ -64,6 +64,10 @@ INSERT INTO Users (u_users, u_userrating, u_id) VALUES ('?', '?', '?');
 UPDATE Ramen
 SET r_rating = '?'
 WHERE r_id = '?'
+
+SELECT AVG(r_rating + '?')
+FROM Ramen
+WHERE r_id = '?';
 
 -- 12 - Will give a recommendation when a item is selected  --!Work in progress
 SELECT *

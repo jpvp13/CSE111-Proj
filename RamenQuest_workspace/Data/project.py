@@ -50,11 +50,12 @@ def displayStyle(conn):             #(1)
 
 def displayVariety(conn, userIngredient):           #(2)
 
-    try:                                    #!CHECK THIS ONE
+    try:                              
+        userIngredient = userIngredient + '%'
         sql = """SELECT *
                 FROM Variety
-                WHERE v_variety LIKE ?          
-                ORDER BY v_variety;
+                WHERE v_variety LIKE ?        
+                ORDER BY v_id;
                 """
         args = [userIngredient] #this is bad becasue it only returns the word, not the tuple
 
@@ -64,33 +65,39 @@ def displayVariety(conn, userIngredient):           #(2)
         row = cur.fetchone()
         if row == None:
             print("There are no matches that match your input: ", userIngredient)
-        
-        cur.execute(sql, args)
+            print("Exiting back to Main Menu...\n")
 
-        mytable = from_db_cursor(cur)
-        print(mytable)
+        else:
+            cur.execute(sql, args)
 
-    except Error as e:
-        conn.rollback()
-        print(e)
+            mytable = from_db_cursor(cur)
 
-
-def displayBrand(conn):         #(3)
-
-    try:
-        sql = """SELECT b_brand
-                FROM Brand
-                ORDER BY b_brand
-                """
-        cur = conn.cursor()
-        cur.execute(sql)
-
-        mytable = from_db_cursor(cur)
-        print(mytable)
+            print(mytable)
+            print("\n")
 
     except Error as e:
         conn.rollback()
         print(e)
+
+#! to many to display and we have another query that will print based on brands
+# def displayBrand(conn):         #(3)
+
+#     try:
+
+#         sql = """SELECT b_brand
+#                 FROM Brand
+#                 WHERE b_brand
+#                 ORDER BY b_brand
+#                 """
+#         cur = conn.cursor()
+#         cur.execute(sql)
+
+#         mytable = from_db_cursor(cur)
+#         print(mytable)
+
+#     except Error as e:
+#         conn.rollback()
+#         print(e)
 
 
 def displayCountry(conn):         #(4)
@@ -128,18 +135,55 @@ def displayAllRatings(conn):         #(5)
         conn.rollback()
         print(e)
 
+def displayRatingCustom(conn, rating):
+    try:
+        sql = """SELECT r_id, r_rating, sb_style, cb_brand, cb_country, r_url
+                    FROM Ramen, Style_Brand, Country_Brand
+                    WHERE r_brand = sb_brand
+                        AND cb_brand = sb_brand
+                        AND r_rating LIKE ?
+                    ORDER BY r_rating DESC"""
+        args = [rating]
 
-def displayCustomRatings(conn, _style):         #(6)
+        cur = conn.cursor()
+        cur.execute(sql, args)
+
+        mytable = from_db_cursor(cur)
+        print(mytable)
+
+    except Error as e:
+        conn.rollback()
+        print(e)
+
+def displayCountryCustom(conn, country):
 
     try:
         sql = """SELECT r_id, r_rating, sb_style, cb_brand, cb_country, r_url
-                FROM Ramen, Style_Brand, Country_Brand
-                WHERE r_brand = sb_brand
-                    AND cb_brand = sb_brand
-                    AND sb_style LIKE '?'
-                ORDER BY r_rating DESC
-                """
-        args = [_style]
+                    FROM Ramen, Style_Brand, Country_Brand
+                    WHERE r_brand = sb_brand
+                        AND cb_brand = sb_brand
+                        AND cb_country LIKE ?
+                    ORDER BY r_rating DESC"""
+        args = [country]
+        cur = conn.cursor()
+        cur.execute(sql, args)
+
+        mytable = from_db_cursor(cur)
+        print(mytable)
+
+    except Error as e:
+        conn.rollback()
+        print(e)
+
+def displayStyleCustom(conn, style):
+    try:
+        sql = """SELECT r_id, r_rating, sb_style, cb_brand, cb_country, r_url
+                    FROM Ramen, Style_Brand, Country_Brand
+                    WHERE r_brand = sb_brand
+                        AND cb_brand = sb_brand
+                        AND sb_style LIKE ?
+                    ORDER BY r_rating DESC"""
+        args = [style]
         cur = conn.cursor()
         cur.execute(sql, args)
 
@@ -151,89 +195,171 @@ def displayCustomRatings(conn, _style):         #(6)
         print(e)
 
 
+def displayCustomAll(conn, _style, _country, _rating):         #(6)  #!Formatting is off..
+
+    try:
+
+        sql = """SELECT r_id, r_rating, sb_style, cb_brand, cb_country, r_url
+                FROM Ramen, Style_Brand, Country_Brand
+                WHERE r_brand = sb_brand
+                    AND cb_brand = sb_brand
+                    AND sb_style LIKE ?
+                    AND cb_country LIKE ?
+                    AND r_rating LIKE ?
+                ORDER BY r_rating DESC"""
+        args = [_style, _country, _rating]
+
+
+
+        cur = conn.cursor()
+        # cur.execute(sql, args)
+
+        row = cur.fetchone()
+        if row == None:
+            print("There was no results with that input\n")
+            return
+
+        cur.execute(sql, args)
+        mytable = from_db_cursor(cur)
+
+        print(mytable)
+        print("\n")
+            
+
+    except Error as e:
+        conn.rollback()
+        print(e)
+
+def updateRating(conn, id, rating):
+    try:
+        cur = conn.cursor()
+
+        update = """UPDATE Ramen
+                SET r_rating = ?
+                WHERE r_id = ?;"""
+        
+        updateArgs = [id, rating]
+
+        cur.execute(update, updateArgs)
+
+        sql = """SELECT AVG(r_rating + ?)
+                FROM Ramen
+                WHERE r_id = ?;"""
+        args = [rating, id]
+
+        row = cur.fetchone()
+        if row == None:
+            print("There was no results with that input\n")
+            return
+        
+        cur.execute(sql, args)
+        mytable = from_db_cursor(cur)
+
+        print(mytable)
+        print("\n")
+            
+    except Error as e:
+        conn.rollback()
+        print(e)
+
 HomePage = """ Please choose one of the options:
-            1) Display Ramen Styles
+            1) Display User  Ramen Styles
+            2) Display User Specific Ramen Varieties
+            3) Display User Specific Ramen Brands
+            4) Display Ramen Country Origns
+            5) Display The Range Of Ramen Ratings
+            6) Display Ramen based on user choices
+            7) Update Ramen rating of user's choice
+
            
 
             'q' to exit
     
-    Waiting For Input:
-            """
+    Waiting For Input: """
 
 
 def main():
     database = r"RamenQuest_workspace/Data/database.sqlite"
 
     conn = openConnection(database)
+    user_input = input(HomePage)
 
     with conn:
-        while(user_input := input(HomePage)) != '0':
+        
+        while(user_input) != '0':
             if user_input == 'q':
                 exit()
             elif user_input == '1':
+                print("You chose 1!")
                 
                 displayStyle(conn)
 
             elif user_input == '2':
-                Ingredients = """Enter a ingredient that you are interested in: """
+                print("You chose 2!")
+                Ingredients = """Enter a ingredient that you are interested in"""
                 print(Ingredients)
 
                 userIngredient = input("Enter Here: ")
                 displayVariety(conn, userIngredient)
             
-            elif user_input == '3':
+            # elif user_input == '3':
+            # print("You chose 3!")
 
-                displayBrand(conn)
+            #     displayBrand(conn)
 
             elif user_input == '4':
+                print("You chose 4!")
 
                 displayCountry(conn)
 
             elif user_input == '5':
+                print("You chose 5!")
 
                 displayAllRatings(conn)
 
 
             elif user_input == '6':
+                print("You chose 6!")
                 Instructions = """Styles: Bar | Bowl | Box | Can | Cup | Pack | Restaurant | Tray"""
                 print(Instructions)
 
-                selectedStyle = input("Enter a specific style: ")
-                displayCustomRatings(conn, selectedStyle)
 
-            # elif user_input == '7':
+                type = input("Would you like all results returned, those from a specific country, those from a specific style or those that have a specific rating(style | country | rating | all): ")
 
-            # elif user_input == '8':
+                if type == "country":
+                    country = input("Please choose a country: ")
+                    displayCountryCustom(conn, country)
 
-            # elif user_input == '9':
+                if type == "rating":
+                    rating = input("Plase choose a rating: ")
+                    displayRatingCustom(conn, rating)
 
-            # elif user_input == '10':
+                if type == "style":
+                    style = input("Enter a specific style: ")
+                    displayStyleCustom(conn, style)
 
-            # elif user_input == '11':
+                if type == "all":
+                    country = input("Please choose a country: ")
 
-            # elif user_input == '12':
+                    rating = float(input("Plase choose a rating: "))
+                    
 
-            # elif user_input == '13':
+                    style = input("Enter a specific style: ")
+                    
+                    displayCustomAll(conn, style, country, rating)
 
-            # elif user_input == '14':
+                
 
-            # elif user_input == '15':
+            elif user_input == '7':
+                print("You chose 7!")
 
-            # elif user_input == '16':
+                type = input("Will you be changing a rating? ( Yes | No): ")
 
-            # elif user_input == '17':
-            
-            # elif user_input == '18':
 
-            # elif user_input == '19':
-
-            # elif user_input == '20':
-
-            # elif user_input == '21':
-
-            # elif user_input == '22':
-
-    
+                if type == "Yes":
+                    id = input("Which ramen would you like to change: ")
+                    rating = float(input("What is your rating on this ramen? (0.0 - 5.0): "))
+                    updateRating(conn, id, rating)
 
     closeConnection(conn, database)
 
