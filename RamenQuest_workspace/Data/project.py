@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3e8e4301f31ab5f83bad66541e284e93ce06ae89
 
+import prettytable
 import sqlite3
 from sqlite3 import Error
 from prettytable import from_db_cursor
@@ -272,6 +276,10 @@ def updateSelfList(conn, id, rating): #6
         
         print("Database Update Complete!")
 
+<<<<<<< HEAD
+=======
+        cur.execute(update, updateArgs)
+>>>>>>> 3e8e4301f31ab5f83bad66541e284e93ce06ae89
         print(mytable)
         print("\n")
         conn.commit()
@@ -539,6 +547,7 @@ def ListDelete(conn, myramen_id):       #15
         conn.rolback()
         print(e)
 
+<<<<<<< HEAD
 def UserInsert(conn, user):     #16         #!doesnt work. might need to add a different column for the users name
     try:
         sql =   """
@@ -555,18 +564,36 @@ def UserInsert(conn, user):     #16         #!doesnt work. might need to add a d
         if row == None:
             print("There are no matches that match your inputs")
             print("Exiting back to Main Menu...\n")
+=======
+# def UserInsert(conn, user, userRating, userID):     #17         #!doesnt work. might need to add a different column for the users name
+#     try:
+#         sql =   """
+#                 INSERT INTO Users(u_users, u_userrating, u_id)
+#                 VALUES(?, ?, ?);
+#                 """
+#         args = [user, userRating, userID]
+#         cur = conn.cursor()
+#         cur.execute(sql, args)
 
-        else:
-            cur.execute(sql, args)
+#         conn.commit()
+>>>>>>> 3e8e4301f31ab5f83bad66541e284e93ce06ae89
 
-            mytable = from_db_cursor(cur)
+#         row = cur.fetchone()
+#         if row == None:
+#             print("There are no matches that match your inputs")
+#             print("Exiting back to Main Menu...\n")
 
-            print(mytable)
-            print("\n")
+#         else:
+#             cur.execute(sql, args)
 
-    except Error as e:
-        conn.rollback()
-        print(e)
+#             mytable = from_db_cursor(cur)
+
+#             print(mytable)
+#             print("\n")
+
+#     except Error as e:
+#         conn.rollback()
+#         print(e)
 
 def viewList(conn):
 
@@ -605,6 +632,10 @@ def viewByMyRating(conn):
     except Error as e:
         conn.rollback()
         print(e)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3e8e4301f31ab5f83bad66541e284e93ce06ae89
 
 def viewUsers(conn):
     try:
@@ -636,10 +667,19 @@ HomePage = """Please choose one of the options:
             11) Display average rating based on user's choice of brand
             12) Display average rating based on user's choice of style
             13) Display average rating based on user's choice of rating
+<<<<<<< HEAD
             14) Add a Ramen into your own personal list
             15) Delete a Ramen from your own personal list
             16) Show my saved list orded by ID # or ratings
             17) Show all current users 
+=======
+            14)***TBA***
+            15) Add a Ramen into your own personal list
+            16) Delete a Ramen from your own personal list
+            ** DNE **17) Add a raiting to a ramen of your choice
+            18) Show my saved list orded by ID #
+            19) Show my saved list ordered by ratings
+>>>>>>> 3e8e4301f31ab5f83bad66541e284e93ce06ae89
 
            
 
@@ -679,16 +719,21 @@ def main():
                     exit()
                 
                 displayStyle(conn)
+                print("Returning to Main Menu...")
 
             elif user_input == '2': #2 in queries
                 print("You chose 2!")
                 userIngredient = input("Enter a ingredient that you are interested in: ")
                 
                 displayVariety(conn, userIngredient)
+<<<<<<< HEAD
 
                 check = input("Quit? (q)")
                 if check == "q":
                     exit()
+=======
+                print("Returning to Main Menu...")
+>>>>>>> 3e8e4301f31ab5f83bad66541e284e93ce06ae89
             
 
             elif user_input == '3': #4 in queries
@@ -699,6 +744,7 @@ def main():
                     exit()
 
                 displayCountry(conn)
+                print("Returning to Main Menu...")
 
             elif user_input == '4': #5 in queries
                 print("You chose 4!")
@@ -708,6 +754,7 @@ def main():
                     exit()
 
                 displayAllRatings(conn)
+                print("Returning to Main Menu...")
 
 
             elif user_input == '5': #6-9 in queries
@@ -728,6 +775,7 @@ def main():
                     if check == "q":
                         exit()
                     displayCountryCustom(conn, country)
+                    print("Returning to Main Menu...")
 
                 if type == "rating":
                     rating = input("Plase choose a rating: ")
@@ -736,6 +784,7 @@ def main():
                     if check == "q":
                         exit()
                     displayRatingCustom(conn, rating)
+                    print("Returning to Main Menu...")
 
                 if type == "style":
                     Instructions = """Styles: Bar | Bowl | Box | Can | Cup | Pack | Restaurant | Tray"""
@@ -746,6 +795,7 @@ def main():
 
                     style = input("Enter a specific style: ")
                     displayStyleCustom(conn, style)
+                    print("Returning to Main Menu...")
 
                 if type == "all":
                     country = input("Please choose a country: ")
@@ -760,6 +810,7 @@ def main():
                     
                     # displayCustomAll(conn, style, country, rating, brand)
                     displayCustomAll(conn, style, country, rating)
+                    print("Returning to Main Menu...")
 
                 
 
@@ -770,6 +821,7 @@ def main():
 
                 if type == "Yes":
 
+<<<<<<< HEAD
                     check = input("Quit? (q)")
                     if check == "q":
                         exit()
@@ -792,6 +844,24 @@ def main():
                         comment = input("What would you like to change the rating to? : ")
                         updateSelfList(conn, id, comment)
                         viewList(conn)
+=======
+                    help = input("Would you like to view your list first? (Yes | No): ")
+                    if help == "Yes":
+                        viewList(conn)
+                        id = input("Which ramen would you like to change: ")
+                        comment = input("What would you like to change the rating to? : ")
+                        updateSelfList(conn, id, comment)
+                        viewList(conn)
+                        print("Returning to Main Menu...")
+
+                    elif help == "No":
+                        print("No worries!")
+                        id = input("Which ramen would you like to change: ")
+                        comment = input("What would you like to change the rating to? : ")
+                        updateSelfList(conn, id, comment)
+                        viewList(conn)
+                        print("Returning to Main Menu...")
+>>>>>>> 3e8e4301f31ab5f83bad66541e284e93ce06ae89
                     
 
                     
@@ -802,11 +872,17 @@ def main():
                 brand = input("Choose a brand: ")
                 maxBrandRating(conn, brand)
 
+<<<<<<< HEAD
                 check = input("Quit? (q)")
                 if check == "q":
                     exit()
 
             elif user_input == '8': #14 in queries  
+=======
+                print("Returning to Main Menu...")
+
+            elif user_input == '8': #14 in queries  #!not working???
+>>>>>>> 3e8e4301f31ab5f83bad66541e284e93ce06ae89
                 print("You chose 8!")
 
                 print(" Options: Bar | Bowl | Box | Can | Cup | Pack | Resaurant | Tray")
@@ -818,6 +894,8 @@ def main():
                 style = input("Choose a style: ")
                 maxStyleRating(conn, style)
 
+                print("Returning to Main Menu...")
+
             elif user_input == '9':    #15 in queries
                 print("You chose 9!")
 
@@ -828,28 +906,42 @@ def main():
                 country = input("Choose the country: ")
                 maxCountryRating(conn, country)
 
+                print("Returning to Main Menu...")
+
             elif user_input == '10':    #!16 from queries
                 print("You chose 10!")
 
+<<<<<<< HEAD
                 check = input("Quit? (q)")
                 if check == "q":
                     exit()
 
                 rating = float(input("What rating would you like to use to retieve URL's with? : "))
                 returnURL(conn, rating)
+=======
+                rating = float(input("What rating would you like to use to retieve URL's with? : "))
+                returnURL(conn, rating)
+                print("Returning to Main Menu...")
+>>>>>>> 3e8e4301f31ab5f83bad66541e284e93ce06ae89
 
             elif user_input == '11':    #17
                 print("You chose 11!")
 
+<<<<<<< HEAD
                 
+=======
+>>>>>>> 3e8e4301f31ab5f83bad66541e284e93ce06ae89
                 type = input("Would you like to view updates based on your input? ( Yes | No): ")
 
                 if type == "Yes":
 
+<<<<<<< HEAD
                     check = input("Quit? (q)")
                     if check == "q":
                         exit()
 
+=======
+>>>>>>> 3e8e4301f31ab5f83bad66541e284e93ce06ae89
                     help = input("Would you like to view your list first? (Yes | No): ")
                     if help == "Yes":
                         viewList(conn)
@@ -860,8 +952,14 @@ def main():
                     elif help == "No":
                         brand = input("What brand would you like to use? : ")
                         avgBrandRating(conn, brand)
+<<<<<<< HEAD
 
         
+=======
+                
+                elif type == "No":
+                    print("No worries! Returning to Main Menu...")
+>>>>>>> 3e8e4301f31ab5f83bad66541e284e93ce06ae89
                 
 
             elif user_input == '12':    #18
@@ -869,12 +967,17 @@ def main():
 
                 print(" Options: Bar | Bowl | Box | Can | Cup | Pack | Resaurant | Tray")
 
+<<<<<<< HEAD
                 check = input("Quit? (q)")
                 if check == "q":
                     exit()
+=======
+>>>>>>> 3e8e4301f31ab5f83bad66541e284e93ce06ae89
 
                 style = input("Choose the style: ")
                 avgStyleRating(conn, style)
+
+                print("Returning to Main Menu...")
 
             elif user_input == '13':    #19
                 print("You chose 13!")
@@ -886,7 +989,13 @@ def main():
                 country = input("Choose a country: ")
                 avgCountryRating(conn, country)
 
+<<<<<<< HEAD
             elif user_input == '14':    #21 in queries
+=======
+                print("Returning to Main Menu...")
+
+            elif user_input == '14':    #!20 in queries
+>>>>>>> 3e8e4301f31ab5f83bad66541e284e93ce06ae89
                 print("You chose 14!")
 
                 check = input("Quit? (q)")
@@ -895,6 +1004,8 @@ def main():
 
                 ramen_id = input("What is the id of the ramen you'd like to put in your list? ")
                 ListInsert(conn, ramen_id)
+
+                print("Returning to Main Menu...")
                 
             elif user_input == '15':    #22 in queries
                 print("You chose 15!")
@@ -906,6 +1017,7 @@ def main():
                 myramen_id = input("What is the id of the ramen you want to remove from your list? ")
                 ListDelete(conn, myramen_id)
 
+<<<<<<< HEAD
             elif user_input == '16':
                 print("You chose 16!")
 
@@ -930,10 +1042,44 @@ def main():
             elif user_input == "17":
                 print("Displaying users...")
                 viewUsers(conn)
+=======
+                print("Returning to Main Menu...")
+
+            elif user_input == '17':    #10 in queries
+                print("You chose 17!: ")
+>>>>>>> 3e8e4301f31ab5f83bad66541e284e93ce06ae89
 
 
+<<<<<<< HEAD
 
 
+=======
+                user = input("What is your name? ")
+                userRating = input("What do you rate the ramen? ")
+                userID = userID + 1     #!CHECK THIS. This doesnt work and doesnt make much sense
+
+                # UserInsert(conn, user, userRating, userID) #!TBA
+                print("Returning to Main Menu...")
+            elif user_input == '18':
+                print("You chose 18!")
+
+                response = input("Would you like to see your list ordered by ID? ( YesID | NoID): ")
+                
+                if(response == 'YesID'):
+                    viewList(conn)
+                elif response == 'NoID':
+                    print("Thats okay!")
+
+                response2 = input("Would you like to see your list ordered by ratings? (YesRating | NoRating): ")
+
+
+                if(response2 == "YesRating"):
+                    viewByMyRating(conn)
+                elif(response2 == "NoRating"):
+                    print("No worries! Going back to main menu...")
+
+
+>>>>>>> 3e8e4301f31ab5f83bad66541e284e93ce06ae89
 
     closeConnection(conn, database)
 

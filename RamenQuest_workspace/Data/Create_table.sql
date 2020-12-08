@@ -1,7 +1,6 @@
 -- SQLite
 -- Creating Table
 
-DROP TABLE CompleteData;
 
 CREATE TABLE CompleteData (
     ID  INT NOT NULL PRIMARY KEY,
@@ -31,11 +30,12 @@ CREATE TABLE Style (
    s_style TEXT PRIMARY KEY NOT NULL
 );
 
+
 CREATE TABLE Users (
-    u_users TEXT PRIMARY KEY NOT NULL,
-    u_userrating INT NULL,
-    u_id INT NULL
+    u_id INTEGER PRIMARY KEY NULL,
+    u_users TEXT  NOT NULL
 );
+
 
 CREATE TABLE Variety (
     v_id TEXT PRIMARY KEY NOT NULL,
@@ -60,3 +60,5 @@ CREATE TABLE myList (       --list where user can store a list of their favorite
     my_brand TEXT NOT NULL,
     my_url TEXT NOT NULL
 );
+
+
