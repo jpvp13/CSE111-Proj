@@ -1,8 +1,10 @@
-#!/usr/bin/python3
 
+import prettytable
 import sqlite3
 from sqlite3 import Error
 from prettytable import from_db_cursor
+
+connection = sqlite3.connect('database.sqlite', timeout=10)
 
 
 def openConnection(_dbFile):
@@ -52,14 +54,14 @@ def displayStyle(conn):             #(1)
 def displayVariety(conn, userIngredient):           #(2)
 
     try:                              
-        userIngredient = userIngredient + '%'
+        userIngredient =  userIngredient + '%'
         sql =   """
-                SELECT *
+                SELECT v_id, v_variety
                 FROM Variety
                 WHERE v_variety LIKE ?        
-                ORDER BY v_id;
+                ORDER BY v_variety;
                 """
-        args = [userIngredient] #this is bad becasue it only returns the word, not the tuple
+        args = [userIngredient] 
 
         cur = conn.cursor()
         cur.execute(sql, args)
@@ -81,28 +83,8 @@ def displayVariety(conn, userIngredient):           #(2)
         conn.rollback()
         print(e)
 
-#! to many to display and we have another query that will print based on brands
-# def displayBrand(conn):         #(3)
 
-#     try:
-
-#         sql = """SELECT b_brand
-#                 FROM Brand
-#                 WHERE b_brand
-#                 ORDER BY b_brand
-#                 """
-#         cur = conn.cursor()
-#         cur.execute(sql)
-
-#         mytable = from_db_cursor(cur)
-#         print(mytable)
-
-#     except Error as e:
-#         conn.rollback()
-#         print(e)
-
-
-def displayCountry(conn):         #(4)
+def displayCountry(conn):         #(3)
 
     try:
         sql =   """
@@ -121,7 +103,7 @@ def displayCountry(conn):         #(4)
         print(e)
 
 
-def displayAllRatings(conn):         #(5)
+def displayAllRatings(conn):         #(4)
 
     try:
         sql =   """
@@ -139,10 +121,10 @@ def displayAllRatings(conn):         #(5)
         conn.rollback()
         print(e)
 
-def displayRatingCustom(conn, rating):
+def displayRatingCustom(conn, rating):  #5
     try:
         sql =   """
-                SELECT r_id, r_rating, sb_style, cb_brand, cb_country, r_url
+                SELECT r_id, r_rating, sb_style, cb_brand, cb_country
                 FROM Ramen, Style_Brand, Country_Brand
                 WHERE r_brand = sb_brand
                     AND cb_brand = sb_brand
@@ -153,28 +135,29 @@ def displayRatingCustom(conn, rating):
 
         cur = conn.cursor()
         cur.execute(sql, args)
+        row = cur.fetchone()
+        if row == None:
+            print("There are no matches that match your input: ", rating)
+            print("Exiting back to Main Menu...\n")
 
-        mytable = from_db_cursor(cur)
-        print(mytable)
+        else:
+            cur.execute(sql, args)
+
+            mytable = from_db_cursor(cur)
+
+            print(mytable)
+            print("\n")
 
     except Error as e:
         conn.rollback()
         print(e)
 
-# def displayBrandCustom(conn, brand):
-#     try:
-#         sql =   """
-#                 """
-    
-#     except Error as e:
-#         conn.rollback()
-#         print(e)
 
-def displayCountryCustom(conn, country):
+def displayCountryCustom(conn, country):    #5
 
     try:
         sql =   """
-                SELECT r_id, r_rating, sb_style, cb_brand, cb_country, r_url
+                SELECT r_id, r_rating, sb_style, cb_brand, cb_country
                 FROM Ramen, Style_Brand, Country_Brand
                 WHERE r_brand = sb_brand
                     AND cb_brand = sb_brand
@@ -184,18 +167,27 @@ def displayCountryCustom(conn, country):
         args = [country]
         cur = conn.cursor()
         cur.execute(sql, args)
+        row = cur.fetchone()
+        if row == None:
+            print("There are no matches that match your input: ", country)
+            print("Exiting back to Main Menu...\n")
 
-        mytable = from_db_cursor(cur)
-        print(mytable)
+        else:
+            cur.execute(sql, args)
+
+            mytable = from_db_cursor(cur)
+
+            print(mytable)
+            print("\n")
 
     except Error as e:
         conn.rollback()
         print(e)
 
-def displayStyleCustom(conn, style):
+def displayStyleCustom(conn, style):    #5
     try:
         sql =   """
-                SELECT r_id, r_rating, sb_style, cb_brand, cb_country, r_url
+                SELECT r_id, r_rating, sb_style, cb_brand, cb_country
                 FROM Ramen, Style_Brand, Country_Brand
                 WHERE r_brand = sb_brand
                     AND cb_brand = sb_brand
@@ -206,20 +198,30 @@ def displayStyleCustom(conn, style):
         cur = conn.cursor()
         cur.execute(sql, args)
 
-        mytable = from_db_cursor(cur)
-        print(mytable)
+        row = cur.fetchone()
+        if row == None:
+            print("There are no matches that match your input: ", style)
+            print("Exiting back to Main Menu...\n")
+
+        else:
+            cur.execute(sql, args)
+
+            mytable = from_db_cursor(cur)
+
+            print(mytable)
+            print("\n")
 
     except Error as e:
         conn.rollback()
         print(e)
 
 
-def displayCustomAll(conn, _style, _country, _rating):         #(6)  #!Formatting is off..
+def displayCustomAll(conn, _style, _country, _rating):         #(5)  #!Formatting is off..
 
     try:
 
         sql =   """
-                SELECT r_id, r_rating, sb_style, cb_brand, cb_country, r_url
+                SELECT r_id, r_rating, sb_style, cb_brand, cb_country
                 FROM Ramen, Style_Brand, Country_Brand
                 WHERE r_brand = sb_brand
                     AND cb_brand = sb_brand
@@ -233,11 +235,10 @@ def displayCustomAll(conn, _style, _country, _rating):         #(6)  #!Formattin
 
 
         cur = conn.cursor()
-        # cur.execute(sql, args)
 
         row = cur.fetchone()
         if row == None:
-            print("There was no results with that input\n")
+            print("There was no results with those input\n")
             return
 
         cur.execute(sql, args)
@@ -251,44 +252,39 @@ def displayCustomAll(conn, _style, _country, _rating):         #(6)  #!Formattin
         conn.rollback()
         print(e)
 
-def updateRating(conn, id, rating):
+
+
+
+def updateSelfList(conn, id, rating): #6
     try:
         cur = conn.cursor()
+        mytable = from_db_cursor(cur)
+        
 
         update =    """
-                    UPDATE Ramen
-                    SET r_rating = ?
-                    WHERE r_id = ?;
+                    UPDATE myList
+                    SET my_rating = ?
+                    WHERE my_ramenID = ?;
                     """
-        
+
         updateArgs = [rating, id]
-
         cur.execute(update, updateArgs)
-
-        sql =   """
-                SELECT AVG(r_rating + ?)
-                FROM Ramen
-                WHERE r_id = ?;
-                """
-        args = [rating, id]
-
-        row = cur.fetchone()
-        if row == None:
-            print("There was no results with that input\n")
-            return
         
-        cur.execute(sql, args)
-        mytable = from_db_cursor(cur)
+        print("Database Update Complete!")
 
         print(mytable)
         print("\n")
+        conn.commit()
             
     except Error as e:
         conn.rollback()
         print(e)
 
-def maxBrandRating(conn, brand):
+def maxBrandRating(conn, brand):        #7  #!to many options for ratings?????###########
     try:
+        print("Searching for a result like...", " '' " , brand , " '' ")
+        brand = '%' + brand + '%'
+        
         sql =   """
                 SELECT MAX(r_rating)
                 FROM Ramen, Country_Brand
@@ -300,36 +296,56 @@ def maxBrandRating(conn, brand):
         cur = conn.cursor()
         cur.execute(sql, args)
 
-        mytable = from_db_cursor(cur)
-        print(mytable)
-        print("\n")
+        row = cur.fetchone()
+        if row == None:
+            print("There are no matches that match your input: ", brand)
+            print("Exiting back to Main Menu...\n")
+
+        else:
+            cur.execute(sql, args)
+
+            mytable = from_db_cursor(cur)
+
+            print(mytable)
+            print("\n")
 
     except Error as e:
         conn.rollback()
         print(e)
 
-def maxStyleRating(conn, style):
+def maxStyleRating(conn, style):        #8 #!doesnt print error message, but maybe "None" inside output is enough#####
     try:
-        sql =   """
-                SELECT MAX(r_rating)
+        sql = """SELECT MAX(r_rating), sb_style
                 FROM Ramen, Style_Brand
                 WHERE r_brand = sb_brand
-                    AND sb_style LIKE ?;
+                    AND sb_style LIKE ?
                 """
         args = [style]
-        cur = conn.cursor
+
+        cur = conn.cursor()
         cur.execute(sql, args)
 
-        mytable = from_db_cursor(cur)
-        print(mytable)
-        print("\n")
+        row = cur.fetchone()
+        if row == None:
+            print("There are no matches that match your input: ", style)
+            print("Exiting back to Main Menu...\n")
+
+        else:
+            cur.execute(sql, args)
+
+            mytable = from_db_cursor(cur)
+
+            print(mytable)
+            print("\n")
     
     except Error as e:
         conn.rollback()
         print(e)
 
-def maxCountryRating(conn, country):
+def maxCountryRating(conn, country):        #9
     try:
+        print("Searching for a result like...", " '' " , country , " '' ")
+        country =  country + '%'
         sql =   """
                 SELECT MAX(r_rating)
                 FROM Ramen, Country_Brand
@@ -340,7 +356,11 @@ def maxCountryRating(conn, country):
         cur = conn.cursor()
         cur.execute(sql, args)
 
+        
+        cur.execute(sql, args)
+
         mytable = from_db_cursor(cur)
+
         print(mytable)
         print("\n")
 
@@ -348,8 +368,38 @@ def maxCountryRating(conn, country):
         conn.rollback()
         print(e)
 
-def avgBrandRating(conn, brand):
+def returnURL(conn, rating): #10 #!only return based on rating since it will be a range
     try:
+        sql = """SELECT ID, URl
+                FROM CompleteData
+                WHERE Stars = ?;"""
+        
+        args = [rating]
+        cur = conn.cursor()
+        cur.execute(sql, args)
+
+        row = cur.fetchone()
+        if row == None:
+            print("There are no matches that match your input: ", rating)
+            print("Exiting back to Main Menu...\n")
+
+        else:
+            cur.execute(sql, args)
+
+            mytable = from_db_cursor(cur)
+
+            print(mytable)
+            print("\n")
+
+    except Error as e:
+        conn.rollback()
+        print(e)
+
+
+
+def avgBrandRating(conn, brand):        #11
+    try:
+        brand = brand + '%'
         sql =   """
                 SELECT AVG(r_rating)
                 FROM Ramen
@@ -359,15 +409,24 @@ def avgBrandRating(conn, brand):
         cur = conn.cursor()
         cur.execute(sql, args)
 
-        mytable = from_db_cursor(cur)
-        print(mytable)
-        print("\n")
+        row = cur.fetchone()
+        if row == None:
+            print("There are no matches that match your input: ", brand)
+            print("Exiting back to Main Menu...\n")
+
+        else:
+            cur.execute(sql, args)
+
+            mytable = from_db_cursor(cur)
+
+            print(mytable)
+            print("\n")
 
     except Error as e:
         conn.rollback()
         print(e)
 
-def avgStyleRating(conn, style):
+def avgStyleRating(conn, style):        #12
     try:
         sql =   """
                 SELECT AVG(r_rating)
@@ -379,15 +438,24 @@ def avgStyleRating(conn, style):
         cur = conn.cursor()
         cur.execute(sql, args)
 
-        mytable = from_db_cursor(cur)
-        print(mytable)
-        print("\n")
+        row = cur.fetchone()
+        if row == None:
+            print("There are no matches that match your input: ", style)
+            print("Exiting back to Main Menu...\n")
+
+        else:
+            cur.execute(sql, args)
+
+            mytable = from_db_cursor(cur)
+
+            print(mytable)
+            print("\n")
     
     except Error as e:
         conn.rollback()
         print(e)
 
-def avgCountryRating(conn, country):
+def avgCountryRating(conn, country):        #13
     try:
         sql =   """
                 SELECT AVG(r_rating)
@@ -399,15 +467,25 @@ def avgCountryRating(conn, country):
         cur = conn.cursor()
         cur.execute(sql, args)
 
-        mytable = from_db_cursor(cur)
-        print(mytable)
-        print("\n")
+        row = cur.fetchone()
+        if row == None:
+            print("There are no matches that match your input: ", country)
+            print("Exiting back to Main Menu...\n")
+
+        else:
+            cur.execute(sql, args)
+
+            mytable = from_db_cursor(cur)
+
+            print(mytable)
+            print("\n")
     
     except Error as e:
         conn.rollback()
         print(e)
 
-def ListInsert(conn, ramen_id):
+
+def ListInsert(conn, ramen_id):     #14
     try:
         sql =   """
                 INSERT INTO myList
@@ -419,15 +497,19 @@ def ListInsert(conn, ramen_id):
         cur = conn.cursor()
         cur.execute(sql, args)
 
+        conn.commit()   #this puts things into our myList table :) will delete fresh everytime we start a new session
+
         mytable = from_db_cursor(cur)
+
         print(mytable)
         print("\n")
+
     
     except Error as e:
         conn.rollback()
         print(e)
 
-def ListDelete(conn, myramen_id):
+def ListDelete(conn, myramen_id):       #15
     try:
         sql =   """
                 DELETE 
@@ -438,24 +520,56 @@ def ListDelete(conn, myramen_id):
         cur = conn.cursor()
         cur.execute(sql, args)
 
-        mytable = from_db_cursor(cur)
-        print(mytable)
-        print("\n")
+        conn.commit()
+
+        row = cur.fetchone()
+        if row == None:
+            print("There are no matches that match your input: ", myramen_id)
+            print("Exiting back to Main Menu...\n")
+
+        else:
+            cur.execute(sql, args)
+
+            mytable = from_db_cursor(cur)
+
+            print(mytable)
+            print("\n")
     
     except Error as e:
         conn.rolback()
         print(e)
 
-def UserInsert(conn, user, userRating, userID):
+def UserInsert(conn, user):     #16         #!doesnt work. might need to add a different column for the users name
     try:
         sql =   """
-                INSERT INTO User(u_users, u_userrating, u_id)
-                VALUES(?, ?, ?);
+                INSERT INTO Users( u_users)
+                VALUES(?);
                 """
-        args = [user, userRating, userID]
+        args = [user]
         cur = conn.cursor()
         cur.execute(sql, args)
 
+        conn.commit()
+
+        row = cur.fetchone()
+        if row == None:
+            print("There are no matches that match your inputs")
+            print("Exiting back to Main Menu...\n")
+    except Error as e:
+        conn.rollback()
+        print(e)
+
+def viewList(conn):
+
+    try:
+        sql = """SELECT my_ramenID AS ID, my_rating, my_brand AS Brand, v_variety AS Variety, my_url AS URL
+                FROM myList, Variety
+                WHERE v_id = my_ramenID
+                ORDER BY my_ramenID;
+                """
+        
+        cur = conn.cursor()
+        cur.execute(sql)
         mytable = from_db_cursor(cur)
         print(mytable)
         print("\n")
@@ -464,19 +578,63 @@ def UserInsert(conn, user, userRating, userID):
         conn.rollback()
         print(e)
 
+def viewByMyRating(conn):
+    try:
+        sql = """SELECT my_ramenID AS ID, my_rating, my_brand AS Brand, v_variety AS Variety, my_url AS URL
+                FROM myList, Variety
+                WHERE v_id = my_ramenID
+                ORDER BY my_rating;
+                """
 
-HomePage = """ Please choose one of the options:
+        
+        cur = conn.cursor()
+        cur.execute(sql)
+        mytable = from_db_cursor(cur)
+        print(mytable)
+        print("\n")
+
+    except Error as e:
+        conn.rollback()
+        print(e)
+
+def viewUsers(conn):
+    try:
+        sql = """SELECT *
+                FROM Users;"""
+            
+        cur = conn.cursor()
+        cur.execute(sql)
+
+        mytable = from_db_cursor(cur)
+        print(mytable)
+        print("\n")
+    except Error as e:
+        conn.rollback()
+        print(e)
+
+HomePage = """Please choose one of the options:
+           
             1) Display User  Ramen Styles
             2) Display User Specific Ramen Varieties
-            3) Display User Specific Ramen Brands
-            4) Display Ramen Country Origns
-            5) Display The Range Of Ramen Ratings
-            6) Display Ramen based on user choices
-            7) Update Ramen rating of user's choice
+            3) Display Ramen Country Origns
+            4) Display The Range Of Ramen Ratings
+            5) Display Ramen based on user choices
+            6) Update Ramen listing with a user comment
+            7) Display highest rating based on user's choice of brand
+            8) Display highest rating based on user's style
+            9) Display highest rating based on user's country
+            10) View a ramens URL based on their ratings
+            11) Display average rating based on user's choice of brand
+            12) Display average rating based on user's choice of style
+            13) Display average rating based on user's choice of rating
+            14) Add a Ramen into your own personal list
+            15) Delete a Ramen from your own personal list
+            16) Show my saved list orded by ID # or ratings
+            17) Show all current users 
 
            
 
-            'q' to exit
+            Press 'q' to exit at any time
     
     Waiting For Input: """
 
@@ -485,160 +643,303 @@ def main():
     database = r"RamenQuest_workspace/Data/database.sqlite"
 
     conn = openConnection(database)
-    user_input = input(HomePage)
+    
+    
 
     with conn:
+
+        user = input("Would you like to create a user account? (Yes | No)")
+        if user == "Yes":
+                # userID = 0
+
+            user = input("What is your name? ")
+        # userID = userID + 1    
+
+            UserInsert(conn, user) 
         
-        while(user_input) != '0':
+        while(user_input := input(HomePage)) != '0':
+
+
             if user_input == 'q':
                 exit()
             elif user_input == '1': #1 in queries
                 print("You chose 1!")
+
+                check = input("Quit? (q)")
+                if check == "q":
+                    exit()
                 
                 displayStyle(conn)
+                print("Returning to Main Menu...")
 
             elif user_input == '2': #2 in queries
                 print("You chose 2!")
-                Ingredients = """Enter a ingredient that you are interested in"""
-                print(Ingredients)
-
-                userIngredient = input("Enter Here: ")
+                userIngredient = input("Enter a ingredient that you are interested in: ")
+                
                 displayVariety(conn, userIngredient)
+
+                check = input("Quit? (q)")
+                if check == "q":
+                    exit()
             
-            # elif user_input == '3':   #3 in queries
-            # print("You chose 3!")
 
-            #     displayBrand(conn)
+            elif user_input == '3': #4 in queries
+                print("You chose 3!")
 
-            elif user_input == '4': #4 in queries
-                print("You chose 4!")
+                check = input("Quit? (q)")
+                if check == "q":
+                    exit()
 
                 displayCountry(conn)
+                print("Returning to Main Menu...")
 
-            elif user_input == '5': #5 in queries
-                print("You chose 5!")
+            elif user_input == '4': #5 in queries
+                print("You chose 4!")
+
+                check = input("Quit? (q)")
+                if check == "q":
+                    exit()
 
                 displayAllRatings(conn)
+                print("Returning to Main Menu...")
 
 
-            elif user_input == '6': #6-9 in queries
-                print("You chose 6!")
+            elif user_input == '5': #6-9 in queries
+                print("You chose 5!")
                 Instructions = """Styles: Bar | Bowl | Box | Can | Cup | Pack | Restaurant | Tray"""
                 print(Instructions)
+
+                check = input("Quit? (q)")
+                if check == "q":
+                    exit()
 
 
                 type = input("Would you like all results returned, those from a specific country, those from a specific style or those that have a specific rating(style | country | rating | all): ")
 
                 if type == "country":
                     country = input("Please choose a country: ")
+                    check = input("Quit? (q)")
+                    if check == "q":
+                        exit()
                     displayCountryCustom(conn, country)
-
-                # if type == "brand":
-                #     brand = input("Please choose a brand: ")
-                #     displayBrand(conn)
-                #     displayBrandCustom(conn, brand)
+                    print("Returning to Main Menu...")
 
                 if type == "rating":
                     rating = input("Plase choose a rating: ")
+
+                    check = input("Quit? (q)")
+                    if check == "q":
+                        exit()
                     displayRatingCustom(conn, rating)
+                    print("Returning to Main Menu...")
 
                 if type == "style":
+                    Instructions = """Styles: Bar | Bowl | Box | Can | Cup | Pack | Restaurant | Tray"""
+
+                    check = input("Quit? (q)")
+                    if check == "q":
+                        exit()
+
                     style = input("Enter a specific style: ")
                     displayStyleCustom(conn, style)
+                    print("Returning to Main Menu...")
 
                 if type == "all":
                     country = input("Please choose a country: ")
 
+
                     rating = float(input("Plase choose a rating: "))
-                    
-                    # brand = input("Please choose a brand: ")
+                   
 
                     style = input("Enter a specific style: ")
+
+                    
                     
                     # displayCustomAll(conn, style, country, rating, brand)
                     displayCustomAll(conn, style, country, rating)
+                    print("Returning to Main Menu...")
 
                 
 
-            elif user_input == '7': #11 in queries
-                print("You chose 7!")
+            elif user_input == '6': #11 in queries      #!fix this one
+                print("You chose 6!")
 
-                type = input("Will you be changing a rating? ( Yes | No): ")
-
+                type = input("Would you like to make some updates to your list? ( Yes | No): ")
 
                 if type == "Yes":
-                    id = input("Which ramen would you like to change: ")
-                    rating = float(input("What is your rating on this ramen? (0.0 - 5.0): "))
-                    updateRating(conn, id, rating)
 
-            elif user_input == '8': #13 in queries
-                print("You chose 8!")
+                    check = input("Quit? (q)")
+                    if check == "q":
+                        exit()
+
+                    help = input("Would you like to view your list first? (Yes | No): ")
+                    if help == "Yes":
+                        viewList(conn)
+                        id = input("Which ramen ID would you like to change: ")
+                        comment = input("What would you like to change the rating to? : ")
+                        updateSelfList(conn, id, comment)
+                        viewList(conn)
+
+                    elif help == "No": 
+                        print("No worries!")
+                        id = input("Which ramen ID would you like to change: ")
+
+                        check = input("Quit? (q)")
+                        if check == "q":
+                            exit()
+                        comment = input("What would you like to change the rating to? : ")
+                        updateSelfList(conn, id, comment)
+                        viewList(conn)
+                    
+
+                    
+
+            elif user_input == '7': #13 in queries
+                print("You chose 7!")
 
                 brand = input("Choose a brand: ")
                 maxBrandRating(conn, brand)
 
-            elif user_input == '9': #14 in queries
-                print("You chose 9!")
+                check = input("Quit? (q)")
+                if check == "q":
+                    exit()
+
+            elif user_input == '8': #14 in queries  
+                print("You chose 8!")
+
+                print(" Options: Bar | Bowl | Box | Can | Cup | Pack | Resaurant | Tray")
+
+                check = input("Quit? (q)")
+                if check == "q":
+                    exit()
 
                 style = input("Choose a style: ")
                 maxStyleRating(conn, style)
 
-            elif user_input == '10':    #15 in queries
-                print("You chose 10!")
+                print("Returning to Main Menu...")
+
+            elif user_input == '9':    #15 in queries
+                print("You chose 9!")
+
+                check = input("Quit? (q)")
+                if check == "q":
+                    exit()
 
                 country = input("Choose the country: ")
                 maxCountryRating(conn, country)
 
-            elif user_input == '11':    #!16 from queries
+                print("Returning to Main Menu...")
+
+            elif user_input == '10':    #!16 from queries
+                print("You chose 10!")
+
+                check = input("Quit? (q)")
+                if check == "q":
+                    exit()
+
+                rating = float(input("What rating would you like to use to retieve URL's with? : "))
+                returnURL(conn, rating)
+
+            elif user_input == '11':    #17
                 print("You chose 11!")
 
-                #!not done
+                
+                type = input("Would you like to view updates based on your input? ( Yes | No): ")
 
-            elif user_input == '12':    #17
+                if type == "Yes":
+
+                    check = input("Quit? (q)")
+                    if check == "q":
+                        exit()
+
+                    help = input("Would you like to view your list first? (Yes | No): ")
+                    if help == "Yes":
+                        viewList(conn)
+                        
+                        brand = input("What brand would you like to use? : ")
+                        avgBrandRating(conn, brand)
+
+                    elif help == "No":
+                        brand = input("What brand would you like to use? : ")
+                        avgBrandRating(conn, brand)
+
+        
+                
+
+            elif user_input == '12':    #18
                 print("You chose 12!")
 
-                brand = input("Choose the brand for the avg brand rating: ")
-                avgBrandRating(conn, brand)
+                print(" Options: Bar | Bowl | Box | Can | Cup | Pack | Resaurant | Tray")
 
-            elif user_input == '13':    #18
-                print("You chose 13!")
+                check = input("Quit? (q)")
+                if check == "q":
+                    exit()
 
                 style = input("Choose the style: ")
                 avgStyleRating(conn, style)
 
-            elif user_input == '14':    #19
-                print("You chose 14!")
+                print("Returning to Main Menu...")
+
+            elif user_input == '13':    #19
+                print("You chose 13!")
+                
+                check = input("Quit? (q)")
+                if check == "q":
+                    exit()
 
                 country = input("Choose a country: ")
                 avgCountryRating(conn, country)
 
-            elif user_input == '15':    #!20 in queries
-                print("You chose 15!")
+            elif user_input == '14':    #21 in queries
+                print("You chose 14!")
 
-                #!not done
-
-            elif user_input == '16':    #21 in queries
-                print("You chose 16!")
+                check = input("Quit? (q)")
+                if check == "q":
+                    exit()
 
                 ramen_id = input("What is the id of the ramen you'd like to put in your list? ")
                 ListInsert(conn, ramen_id)
+
+                print("Returning to Main Menu...")
                 
-            elif user_input == '17':    #22 in queries
-                print("You chose 17!")
+            elif user_input == '15':    #22 in queries
+                print("You chose 15!")
+
+                check = input("Quit? (q)")
+                if check == "q":
+                    exit()
 
                 myramen_id = input("What is the id of the ramen you want to remove from your list? ")
                 ListDelete(conn, myramen_id)
 
-            elif user_input == '18':    #10 in queries
-                print("You chose 18!: ")
+            elif user_input == '16':
+                print("You chose 16!")
 
-                userID = 0
+                response = input("Would you like to see your list ordered by ID? ( YesID | NoID): ")
+                
+                if(response == 'YesID'):
+                    check = input("Quit? (q)")
+                    if check == "q":
+                        exit()
+                    viewList(conn)
+                elif response == 'NoID':
+                    print("Thats okay!")
 
-                user = input("What is your name? ")
-                userRating = input("What do you rate the ramen? ")
-                userID = userID + 1
+                response2 = input("Would you like to see your list ordered by ratings? (YesRating | NoRating): ")
+                
 
-                UserInsert(conn, user, userRating, userID)
+                if(response2 == "YesRating"):
+                    check = input("Quit? (q)")
+                    if check == "q":
+                        exit()
+                    viewByMyRating(conn)
+            elif user_input == "17":
+                print("Displaying users...")
+                viewUsers(conn)
+
+
+
+
 
     closeConnection(conn, database)
 

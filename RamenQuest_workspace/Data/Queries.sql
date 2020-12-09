@@ -87,10 +87,10 @@ WHERE r_brand = cb_brand
     AND cb_brand LIKE 'A-one'
 
 -- 14 - Will return the max rating based on a specific style    --!Q9
-SELECT MAX(r_rating)
+SELECT MAX(r_rating), sb_style
 FROM Ramen, Style_Brand
 WHERE r_brand = sb_brand
-    AND sb_style LIKE '?'
+    AND sb_style LIKE 'box'
 
 -- 15 - Will return the max rating based on a specific country  --!Q10
 SELECT MAX(r_rating)
@@ -136,8 +136,10 @@ GROUP BY cb_brand
 INSERT INTO myList
 SELECT r_id, r_rating, r_brand, r_url 
 FROM Ramen
-WHERE r_id = '?'
+WHERE r_id = 1
 
 -- 22 - delete a ramen from myList based on the my_ramenID
 DELETE FROM myList
 WHERE my_ramenID = '?'
+
+ 
