@@ -6,4 +6,4 @@ Project Idea: Create a application that gives user(s) access to data on Ramen va
 
 **Main Project lives inside RamenQuest Workspace/Data , actual files live within data. Other folders hold supporting data we used while creating project.**
 
-*** Dataset was found from Kaggle.com, -> https://www.kaggle.com/samuelvedrik/ramen-ratings-latest-update-jan-25-2020
+## Dataset was found from Kaggle.com, -> https://www.kaggle.com/samuelvedrik/ramen-ratings-latest-update-jan-25-2020
